@@ -58,22 +58,30 @@ public class BlockAccessorImpl extends AccessorImpl<RayTraceResult> implements B
 	public static void handleRequest(RequestBlockPacket message, ServerPayloadContext context, Consumer<NBTTagCompound> responseSender) {
 		EntityPlayerMP player = context.player();
 		context.execute(() -> {
+			BlockPos pos = message.data().hit().getBlockPos();
+			if (Jade.isOutOfReach(player, pos, player.getEntityAttribute(EntityPlayer.REACH_DISTANCE).getAttributeValue())
+					|| !player.getEntityWorld().isBlockLoaded(pos)) {
+				NBTTagCompound tag = message.data().data();
+				if (tag == null) {
+					tag = new NBTTagCompound();
+				}
+				tag.setInteger("x", pos.getX());
+				tag.setInteger("y", pos.getY());
+				tag.setInteger("z", pos.getZ());
+				responseSender.accept(tag);
+				return;
+			}
+
 			BlockAccessor accessor = message.data().unpack(player);
 			if (accessor == null) {
 				return;
 			}
 
-			BlockPos pos = accessor.getPosition();
 			NBTTagCompound tag = accessor.getServerData();
 			tag.setInteger("x", pos.getX());
 			tag.setInteger("y", pos.getY());
 			tag.setInteger("z", pos.getZ());
 			tag.setString("BlockId", CommonProxy.getId(accessor.getBlock()).toString());
-
-			if (!player.getEntityWorld().isBlockLoaded(pos) || Jade.isOutOfReach(player, pos, player.getEntityAttribute(EntityPlayer.REACH_DISTANCE).getAttributeValue())) {
-				responseSender.accept(tag);
-				return;
-			}
 
 			List<IServerDataProvider<BlockAccessor>> providers = WailaCommonRegistration.instance()
 					.blockDataProvidersOf(accessor.getBlockState(), accessor.getBlockEntity(), true);
