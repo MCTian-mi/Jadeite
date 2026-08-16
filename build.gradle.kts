@@ -27,8 +27,9 @@ dependencies {
 
     // Test mod for proving that TOP shim works
     runtimeOnly(deps.hei)
-    runtimeOnly(deps.codeChickenLib) { isTransitive = false }
-    runtimeOnly(deps.gregtech) { isTransitive = false }
+    implementation(deps.codeChickenLib) { isTransitive = false }
+    implementation(deps.gregtech) { isTransitive = false }
+    implementation(deps.ae2uel) { isTransitive = false }
 }
 
 configurations {

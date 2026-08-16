@@ -8,6 +8,7 @@ fastUtil = "8.5.12"
 hei = "4.32.0"
 codeChickenLib = "3.2.3.358"
 gregtech = "2.8.10-beta"
+ae2uel = "v0.56.4"
 
 [libraries]
 annotations = { module = "org.jetbrains:annotations", version.ref = "annotations" }
@@ -19,3 +20,4 @@ fastUtil = { module = "it.unimi.dsi:fastutil", version.ref = "fastUtil" }
 hei = { module = "mezz:jei", version.ref = "hei" }
 codeChickenLib = { module = "codechicken:codechickenlib", version.ref = "codeChickenLib" }
 gregtech = { module = "gregtech:gregtech", version.ref = "gregtech" }
+ae2uel = { module = "appeng:ae2-uel", version.ref = "ae2uel" }
