@@ -3,7 +3,7 @@ annotations = "26.1.0"
 jspecify = "1.0.0"
 assertj = "3.27.7"
 dataFixerUpper = "10.0.21"
-fastUtil = "8.5.12"
+lombok = "1.18.46"
 
 hei = "4.32.0"
 codeChickenLib = "3.2.3.358"
@@ -15,7 +15,7 @@ annotations = { module = "org.jetbrains:annotations", version.ref = "annotations
 jspecify = { module = "org.jspecify:jspecify", version.ref = "jspecify" }
 assertj-core = { module = "org.assertj:assertj-core", version.ref = "assertj" }
 dataFixerUpper = { module = "com.mojang:datafixerupper", version.ref = "dataFixerUpper" }
-fastUtil = { module = "it.unimi.dsi:fastutil", version.ref = "fastUtil" }
+lombok = { module = "org.projectlombok:lombok", version.ref = "lombok" }
 
 hei = { module = "mezz:jei", version.ref = "hei" }
 codeChickenLib = { module = "codechicken:codechickenlib", version.ref = "codeChickenLib" }

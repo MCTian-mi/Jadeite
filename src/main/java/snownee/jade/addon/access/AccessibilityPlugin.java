@@ -23,8 +23,6 @@ import snownee.jade.util.JadeLanguages;
 public class AccessibilityPlugin implements IWailaPlugin {
 	@Override
 	public void registerClient(IWailaClientRegistration registration) {
-		// 1.12.2: the modern SignBlock class does not exist; both sign blocks (standing and
-		// wall) are registered so the provider runs for every sign tile entity.
 		registration.registerBlockComponent(new SignProvider(), BlockSign.class);
 		registration.markAsClientFeature(JadeIds.ACCESS_SIGN);
 
@@ -39,9 +37,6 @@ public class AccessibilityPlugin implements IWailaPlugin {
 		registration.registerEntityComponent(new EntityDetailsBodyProvider(), Entity.class);
 		registration.markAsClientFeature(JadeIds.ACCESS_ENTITY_DETAILS);
 
-		// 1.12.2: Mannequin does not exist -- the NPC description provider is registered
-		// for villagers instead (see NpcDescriptionProvider for the substitution).
-		registration.registerEntityComponent(new NpcDescriptionProvider(), EntityVillager.class);
 		registration.markAsClientFeature(JadeIds.ACCESS_NPC_DESCRIPTION);
 
 		registration.registerEntityComponent(new EntityVariantProvider(), EntityLivingBase.class);

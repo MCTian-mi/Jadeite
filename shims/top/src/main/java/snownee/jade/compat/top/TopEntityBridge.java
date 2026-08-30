@@ -35,25 +35,33 @@ public class TopEntityBridge implements IServerDataProvider<EntityAccessor> {
 	}
 
 	@Override
+	public boolean shouldRequestData(EntityAccessor accessor) {
+		// 1.12.2: when every TOP entity provider is disabled, skip the server round-trip entirely.
+		// Individual toggles are still enforced per-element on the client (see appendTooltip).
+		return TopProviderConfig.anyEntityEnabled();
+	}
+
+	@Override
 	public void appendServerData(NBTTagCompound data, EntityAccessor accessor) {
 		TopProviderStore store = TheOneProbeImpl.INSTANCE.getStore();
 		IProbeHitEntityData hitData = new ProbeHitEntityDataImpl(accessor);
 
-		CaptureProbeInfo capture = new CaptureProbeInfo();
+		NBTTagList list = new NBTTagList();
 		for (IProbeInfoEntityProvider provider : store.getEntityProviders()) {
+			CaptureProbeInfo capture = new CaptureProbeInfo();
 			try {
 				provider.addProbeEntityInfo(ProbeMode.NORMAL, capture, accessor.getPlayer(),
 						accessor.getLevel(), accessor.getEntity(), hitData);
 			} catch (Throwable e) {
 				LOGGER.error("TOP entity provider {} threw", provider.getID(), e);
 			}
-		}
-
-		if (!capture.getElements().isEmpty()) {
-			NBTTagList list = new NBTTagList();
 			for (ElementDto dto : capture.getElements()) {
+				dto.stampProvider(provider.getID());
 				list.appendTag(dto.toNbt());
 			}
+		}
+
+		if (list.tagCount() > 0) {
 			data.setTag(TOP_ENTITY_KEY, list);
 		}
 	}

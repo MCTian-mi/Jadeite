@@ -41,6 +41,11 @@ public final class TopCompat {
 	 * Registers client-side tooltip providers separately from server data providers.
 	 */
 	public static void registerClient(IWailaClientRegistration registration) {
+		// 1.12.2: register one boolean config toggle per TOP provider so each can be turned off
+		// individually and gradually replaced by a native Jade provider. Runs here -- after IMC
+		// delivery -- so every provider is already in the store.
+		TopProviderConfig.registerAll(registration);
+
 		registration.registerBlockComponent(
 				TopBlockBridge.CLIENT, net.minecraft.block.Block.class);
 		registration.registerEntityComponent(

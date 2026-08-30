@@ -1,0 +1,5 @@
+# Jade TOP Compatibility shim -- config labels for the per-provider toggles.
+# Provider IDs are dynamic (third-party TOP integrations), so each provider's row falls back to
+# the slugged ID; only the category and the block-accessor sentinel get explicit names here.
+config.jade.plugin_theoneprobe=TheOneProbe Compatibility
+config.jade.plugin_theoneprobe.provider.block_accessor=Block IProbeInfoAccessor

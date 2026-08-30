@@ -1,9 +1,13 @@
 package snownee.jade.addon.access;
 
+import lombok.val;
 import net.minecraft.block.BlockCake;
 import net.minecraft.block.BlockCauldron;
+import net.minecraft.block.BlockRedstoneWire;
 import net.minecraft.block.BlockSnow;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockRedstoneWire.EnumAttachPosition;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import snownee.jade.JadeClient;
 import snownee.jade.api.BlockAccessor;
@@ -12,15 +16,17 @@ import snownee.jade.api.ITooltip;
 import snownee.jade.api.JadeIds;
 import snownee.jade.api.config.IPluginConfig;
 
+import java.util.EnumMap;
+import java.util.Map;
+
 public class BlockAmountProvider implements IBlockComponentProvider {
 	@Override
 	public void appendTooltip(ITooltip tooltip, BlockAccessor accessor, IPluginConfig config) {
 		if (!config.get(JadeIds.ACCESS_BLOCK_DETAILS)) {
 			return;
 		}
-		IBlockState blockState = accessor.getBlockState();
-		// 1.12.2: sea pickles, candles and turtle eggs do not exist (all are 1.13+), so their
-		// "amount" branch is dropped entirely.
+		val blockState = accessor.getBlockState();
+
 		if (blockState.getPropertyKeys().contains(BlockCake.BITES)) {
 			tooltip.add(JadeClient.format("jade.access.block.bites", blockState.getValue(BlockCake.BITES)));
 		}

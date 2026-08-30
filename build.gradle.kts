@@ -16,6 +16,12 @@ dependencies {
     compileOnlyApi(deps.annotations)
     testImplementation(deps.assertj.core)
 
+    // Lombok
+    compileOnly(deps.lombok)
+    annotationProcessor(deps.lombok)
+    testCompileOnly(deps.lombok)
+    testAnnotationProcessor(deps.lombok)
+
     shadowDowngrade(deps.dataFixerUpper) { isTransitive = false }
 //    shadowDowngrade(deps.fastUtil) { isTransitive = false }
 

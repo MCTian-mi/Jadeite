@@ -44,6 +44,12 @@ public class ElementDto {
 	public int progressNumberFormat;
 	public String progressPrefix = "";
 	public String progressSuffix = "";
+	/**
+	 * TOP provider ID that produced this element (or the block-accessor sentinel). Populated on the
+	 * server so the client can filter elements per-provider; empty for elements captured before the
+	 * provider tagging was introduced.
+	 */
+	public String providerId = "";
 
 	public NBTTagCompound toNbt() {
 		NBTTagCompound tag = new NBTTagCompound();
@@ -75,6 +81,9 @@ public class ElementDto {
 				list.appendTag(child.toNbt());
 			}
 			tag.setTag("children", list);
+		}
+		if (!providerId.isEmpty()) {
+			tag.setString("providerId", providerId);
 		}
 		return tag;
 	}
@@ -111,6 +120,18 @@ public class ElementDto {
 				dto.children.add(fromNbt(list.getCompoundTagAt(i)));
 			}
 		}
+		dto.providerId = tag.getString("providerId");
 		return dto;
+	}
+
+	/**
+	 * Recursively stamps this element and all its children with a TOP provider ID, so the client
+	 * can filter a whole element tree (including nested layouts) per-provider.
+	 */
+	public void stampProvider(String id) {
+		providerId = id;
+		for (ElementDto child : children) {
+			child.stampProvider(id);
+		}
 	}
 }
